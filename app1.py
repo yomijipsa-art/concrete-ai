@@ -8,7 +8,7 @@ import os
 
 # --- [설정 구간] ---
 # 1. Gemini API 키 설정
-genai.configure(api_key="AIzaSyCWm3sHFWbz8s092W_pWayaW-XCYnGpt4o")
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 model = genai.GenerativeModel('gemini-3-flash-preview')
 
 # 2. 고정된 엑셀 양식 파일 이름
@@ -117,4 +117,5 @@ if len(uploaded_images) == 2:
             st.error(f"오류가 발생했습니다: {e}")
 
 elif len(uploaded_images) > 0:
+
     st.warning("사진을 반드시 **2장** 선택해야 합니다.")
