@@ -76,21 +76,25 @@ if len(uploaded_images) == 2:
                 # 2번째 시트에 사진 삽입
                 ws2 = wb.worksheets[1] # 두 번째 시트
                 
-                for i, upload_file in enumerate(uploaded_images):
-                    # 사진 이름 결정
+              for i, upload_file in enumerate(uploaded_images):
                     label = f"사진{i+1}"
                     cell_pos = image_cell_map[label]
                     
-                    # 이미지를 openpyxl용으로 변환
+                    # 1. 파일을 Pillow 이미지 객체로 읽기
+                    img = PILImage.open(upload_file)
+                    
+                    # 2. 만약 MPO나 PNG(투명도) 등 특이한 형식이면 표준 RGB로 변환
+                    if img.mode != 'RGB':
+                        img = img.convert('RGB')
+                    
+                    # 3. 표준 JPEG 파일로 임시 저장
                     img_path = f"temp_img_{i}.jpg"
-                    with open(img_path, "wb") as f:
-                        f.write(upload_file.getbuffer())
+                    img.save(img_path, format="JPEG")
                     
+                    # 4. 엑셀에 삽입
                     xl_img = Image(img_path)
-                    
-                    # 사진 크기 조절 (필요시)
-                    xl_img.width = 614 
-                    xl_img.height = 406
+                    xl_img.width = 406  # 가로 10.74cm 근사치
+                    xl_img.height = 614 # 세로 16.25cm 근사치
                     
                     ws2.add_image(xl_img, cell_pos)
 
@@ -119,3 +123,4 @@ if len(uploaded_images) == 2:
 elif len(uploaded_images) > 0:
 
     st.warning("사진을 반드시 **2장** 선택해야 합니다.")
+
