@@ -41,8 +41,8 @@ image_cell_map = {
 
 # 사진 고정 크기 설정 (픽셀 단위: 가로 406px, 세로 614px)
 # 이는 약 10.74cm * 16.25cm 크기입니다.
-FIXED_WIDTH = 406
-FIXED_HEIGHT = 614
+FIXED_WIDTH = 614
+FIXED_HEIGHT = 406
 # ------------------
 
 st.title("🏗️ 스마트 건설 현장 보고서 생성기")
@@ -138,3 +138,4 @@ if len(uploaded_images) == 2:
 
 elif len(uploaded_images) > 0:
     st.warning("사진을 반드시 **2장** 선택해야 합니다.")
+
